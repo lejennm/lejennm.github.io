@@ -12,6 +12,13 @@ library(dplyr)
 library(RColorBrewer)
 ```
 
+### CMSC320 Final Project
+
+#### Background
+
+
+
+
 #### Gathering and Tidying Data
 
 Let's start by loading the data. 
@@ -61,6 +68,12 @@ head(gen3)
 ```
 
 
+```{r}
+legendary <- pokemon %>%
+  filter(Legendary == "True")
+head(legendary)
+```
+
 #### Exploratory Data Analysis
 
 ```{r}
@@ -92,22 +105,134 @@ avgStats %>%
 
 ```{r}
 avgStats %>%
-  ggplot(mapping=aes(x=avgAttack, y=avgDefense)) + geom_point(aes(color=Type1)) + geom_text(aes(label=Type1)) + labs(x="Average Attack", y="Average Defense", title="Average Attack vs. Average Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
+  ggplot(mapping=aes(x=Type1, y=avgSpAttack)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Special Attack", title="Average Special Attack of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
 
 ```{r}
-gen1 %>%
-  filter(Type1 == "Water") %>%
-  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 1") + theme(axis.text.x=element_text(angle=90, hjust=1))
-
-gen2 %>%
-  filter(Type1 == "Water") %>%
-  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 2") + theme(axis.text.x=element_text(angle=90, hjust=1))
-
-gen3 %>%
-  filter(Type1 == "Water") %>%
-  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 3") + theme(axis.text.x=element_text(angle=90, hjust=1))
+avgStats %>%
+  ggplot(mapping=aes(x=Type1, y=avgSpDefense)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Special Defense", title="Average Special Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
 
+```{r}
+avgStats %>%
+  ggplot(mapping=aes(x=Type1, y=avgSpeed)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Speed", title="Average Speed of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
+```
+
+
+
+```{r}
+avgStats %>%
+  ggplot(mapping=aes(x=avgAttack, y=avgDefense)) + geom_point(aes(color=Type1)) + geom_text(aes(label=Type1)) + labs(x="Average Attack", y="Average Defense", title="Average Attack vs. Average Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
+```
+
+```{r}
+avgStats %>%
+  ggplot(mapping=aes(x=avgSpAttack, y=avgSpDefense)) + geom_point(aes(color=Type1)) + geom_text(aes(label=Type1)) + labs(x="Average Special Attack", y="Average Special Defense", title="Average Special Attack vs. Average Special Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
+```
+
+```{r}
+gen1Water <- gen1 %>%
+  filter(Type1 == "Water") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 1") + theme(axis.text.x=element_text(angle=90, hjust=1))
+gen1Water
+
+gen2Water <- gen2 %>%
+  filter(Type1 == "Water") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 2") + theme(axis.text.x=element_text(angle=90, hjust=1))
+gen2Water
+
+gen3Water <- gen3 %>%
+  filter(Type1 == "Water") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 3") + theme(axis.text.x=element_text(angle=90, hjust=1))
+gen3Water
+```
+
+```{r}
+gen1Fire <- gen1 %>%
+  filter(Type1 == "Fire") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 1") + theme(axis.text.x=element_text(angle=90, hjust=1))
+gen1Fire
+
+gen2Fire <- gen2 %>%
+  filter(Type1 == "Fire") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 2") + theme(axis.text.x=element_text(angle=90, hjust=1))
+gen2Fire
+
+gen3Fire <- gen3 %>%
+  filter(Type1 == "Fire") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 3") + theme(axis.text.x=element_text(angle=90, hjust=1))
+gen3Fire
+```
+
+### MAKE TABLE OF THE HIGHEST OVERALL STATS
+```{r}
+highestOverall <- pokemon %>%
+  arrange(desc(Total))
+
+head(highestOverall)
+```
+
+
+### MAKE TABLE OF THE HIGHEST OVERALL STATS FOR EACH TYPE
+```{r}
+overallByType <- pokemon %>%
+  group_by(Type1) %>%
+  summarize(Top = max(Total))
+
+overallByType
+```
+
+### COMPARE THE NUMBER OF SINGLE TYPE VS DOUBLE TYPE POKEMON FROM GEN1
+```{r}
+typeGen1 <- gen1 %>%
+  group_by(DoubleType) %>%
+  summarize(Number = n()) %>%
+  mutate(Generation = "Gen1")
+
+typeGen1
+```
+
+
+### COMPARE THE NUMBER OF SINGLE TYPE VS DOUBLE TYPE POKEMON FROM GEN2
+```{r}
+typeGen2 <- gen2 %>%
+  group_by(DoubleType) %>%
+  summarize(Number = n()) %>%
+  mutate(Generation = "Gen2")
+
+typeGen2
+```
+
+
+### COMPARE THE NUMBER OF SINGLE TYPE VS DOUBLE TYPE POKEMON FROM GEN3
+```{r}
+typeGen3 <- gen3 %>%
+  group_by(DoubleType) %>%
+  summarize(Number = n()) %>%
+  mutate(Generation = "Gen3")
+
+typeGen3
+```
+
+### COMBINE THE DOUBLETYPE TABLES INTO ONE TABLE
+```{r}
+types <- rbind(typeGen1, typeGen2, typeGen3)
+types
+```
+
+
+### GET ALL LEGENDARY POKEMON AND PLOT THEIR ATTACK VS SPECIAL ATTACK
+```{r}
+legendary
+```
+
+
+### GET ALL LEGENDARY POKEMON AND PLOT THEIR DEFENSE VS SPECIAL DEFENSE
+```{r}
+legendary
+```
+
+
+### CONCLUSIONS
