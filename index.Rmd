@@ -10,6 +10,7 @@ library(dplyr)
 
 ##### Jennifer Le
 
+
 #### Introduction
 
 Pokemon is a media franchise that surrounds creatures called Pokemon, which Pokemon trainers catch and train in order to battle each other. Pokemon started out as video games, but have grown to include trading cards, animated television shows and movies, comic books, and toys. This tutorial is going to focus on the video games and the Pokemon's statistics in these games. Every Pokemon has a type (some have two) along with statistics such as HP, attack, defense, special attack, special defense, and speed. There are also a few Pokemon that are "legendary." These Pokemon are considered the best and most powerful Pokemon that you battle at the end of the game. 
@@ -17,6 +18,7 @@ Pokemon is a media franchise that surrounds creatures called Pokemon, which Poke
 #### Required Tools
 
 You will need to download R and the following packages:
+
 - dplyr
 - tidyr
 - ggplot2
@@ -25,7 +27,7 @@ R can be downloaded here: https://cran.r-project.org/index.html
 
 #### Getting started
 
-Let's start by loading the data. 
+Let's start by loading the data. The dataset can be found at https://www.kaggle.com/alberthkcheng/pokemon/data. This dataset includes all Pokemon and their statistics from generations 1-6. 
 
 ```{r}
 pokemon <- read.csv("/Users/jJ/Documents/CMSC320/Pokemon.csv")
@@ -33,7 +35,7 @@ pokemon %>%
   head(10)
 ```
 
-The table already looks pretty tidy but there are still a few things we can fix to make it even better. Some of the column names are a bit confusing, so let's change them to more meaningful names. Also, we want to look at just the first three generations of Pokemon, so let's filter that out. 
+From the table, we can see the Pokemon's ID, name, type(s), battle statistics, generation, and whether or not it's legendary. The table already looks pretty tidy but there are still a few things we can fix to make it even better. Some of the column names are a bit confusing, so let's change them to make them more easier to understand. Also, we want to look at just the first three generations of Pokemon, so let's filter those Pokemon out. 
 
 ```{r}
 pokemon <- pokemon %>%
@@ -42,8 +44,7 @@ pokemon <- pokemon %>%
 head(pokemon)
 ```
 
-Let's create some new attributes. The first one will be named Average and it calculate the total average of all statistics (HP, attack, defense, special attack, special defense, speed) for each Pokemon. This statistical average will show how high a Pokemon's statistics are and how strong it is. The second attribute called DoubleType will show if a Pokemon has two types or not. Some Pokemon only have one type but others have two types. This can come as an advantage for the Pokemon as they will 
-
+Let's create some new attributes that will help us understand the data a little better. The first one will be named AverageStats and it will calculate the total average of all statistics (HP, attack, defense, special attack, special defense, speed) for each Pokemon. This statistical average will show how high a Pokemon's statistics are and how strong it is. The second attribute called DoubleType will show if a Pokemon has two types by displaying either TRUE or FALSE. Some Pokemon only have one type but others have two types. This can come as an advantage for the Pokemon as they are able to cause damage to more types of Pokemon as opposed to those with only one type. However, this also means that the Pokemon with two types are weak against more types of Pokemon. 
 
 ```{r}
 pokemon <- pokemon %>%
@@ -52,25 +53,23 @@ pokemon <- pokemon %>%
 head(pokemon)
 ```
 
+Let's create some tables for each of the first three generations. This will make it easier to grab data from each generation.
 
 ```{r}
 gen1 <- pokemon %>%
   filter(Generation == 1)
 head(gen1)
-```
 
-```{r}
 gen2 <- pokemon %>%
   filter(Generation == 2)
 head(gen2)
-```
 
-```{r}
 gen3 <- pokemon %>%
   filter(Generation == 3)
 head(gen3)
 ```
 
+Let's also create a table just for legendary Pokemon. 
 
 ```{r}
 legendary <- pokemon %>%
