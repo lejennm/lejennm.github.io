@@ -11,7 +11,69 @@ library(tidyr)
 library(dplyr)
 ```
 
+#### Gathering and Tidying Data
+
+Let's start by loading the data. 
+
 ```{r}
 pokemon <- read.csv("/Users/jJ/Documents/CMSC320/Pokemon.csv")
+pokemon %>%
+  head(10)
+```
+
+The table already looks pretty tidy but there are still a few things we can fix to make it even better. Some of the column names are a bit confusing, so let's change them to more meaningful names. Also, we want to look at just the first three generations of Pokemon, so let's filter that out. 
+
+```{r}
+pokemon <- pokemon %>%
+  rename(ID = X., Type1 = Type.1, Type2 = Type.2, SpecialAttack = Sp..Atk, SpecialDefense = Sp..Def) %>%
+  filter(Generation <= 3)
 pokemon
 ```
+
+Let's create some new attributes. The first one will be named Average and it calculate the total average of all statistics (HP, attack, defense, special attack, special defense, speed) for each Pokemon. This statistical average will show how high a Pokemon's statistics are and how strong it is. The second attribute called DoubleType will show if a Pokemon has two types or not. Some Pokemon only have one type but others have two types. This can come as an advantage for the Pokemon as they will 
+
+
+```{r}
+pokemon <- pokemon %>%
+  mutate(Average = Total / 6) %>%
+  mutate(DoubleType = ifelse(Type2 != "", TRUE, FALSE))
+pokemon
+```
+
+
+```{r}
+gen1 <- pokemon %>%
+  filter(Generation == 1)
+gen1
+```
+
+```{r}
+gen2 <- pokemon %>%
+  filter(Generation == 2)
+gen2
+```
+
+```{r}
+gen3 <- pokemon %>%
+  filter(Generation == 3)
+gen3
+```
+
+
+#### Exploratory Data Analysis
+
+```{r}
+pokemon %>%
+  group_by(Type1) %>%
+  summarize(avgHP = mean(HP), avgAttack = mean(Attack), avgDefense = mean(Defense))
+```
+
+
+```{r}
+pokemon %>%
+  group_by(Type1) %>%
+  summarize(avgAttack = mean(Attack))
+```
+
+
+
