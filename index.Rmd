@@ -63,16 +63,17 @@ gen3
 #### Exploratory Data Analysis
 
 ```{r}
-pokemon %>%
+avgStats <- pokemon %>%
   group_by(Type1) %>%
-  summarize(avgHP = mean(HP), avgAttack = mean(Attack), avgDefense = mean(Defense))
+  summarize(avgHP = mean(HP), avgAttack = mean(Attack), avgDefense = mean(Defense), avgSpAttack = mean(SpecialAttack), avgSpDefense = mean(SpecialDefense), avgSpeed = mean(Speed))
+
+avgStats
 ```
 
 
 ```{r}
-pokemon %>%
-  group_by(Type1) %>%
-  summarize(avgAttack = mean(Attack))
+avgStats %>%
+  ggplot(mapping=aes(x=Type1, y=avgAttack)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Attack", title="Average Attack of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
 
