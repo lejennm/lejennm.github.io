@@ -9,6 +9,7 @@ output: html_document
 library(ggplot2)
 library(tidyr)
 library(dplyr)
+library(RColorBrewer)
 ```
 
 #### Gathering and Tidying Data
@@ -35,7 +36,7 @@ Let's create some new attributes. The first one will be named Average and it cal
 
 ```{r}
 pokemon <- pokemon %>%
-  mutate(Average = Total / 6) %>%
+  mutate(AverageStats = Total / 6) %>%
   mutate(DoubleType = ifelse(Type2 != "", TRUE, FALSE))
 pokemon
 ```
@@ -73,8 +74,40 @@ avgStats
 
 ```{r}
 avgStats %>%
+  ggplot(mapping=aes(x=Type1, y=avgHP)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average HP", title="Average HP of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
+```
+
+
+```{r}
+avgStats %>%
   ggplot(mapping=aes(x=Type1, y=avgAttack)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Attack", title="Average Attack of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
+
+```{r}
+avgStats %>%
+  ggplot(mapping=aes(x=Type1, y=avgDefense)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Defense", title="Average Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
+```
+
+
+```{r}
+avgStats %>%
+  ggplot(mapping=aes(x=avgAttack, y=avgDefense)) + geom_point(aes(color=Type1)) + geom_text(aes(label=Type1)) + labs(x="Average Attack", y="Average Defense", title="Average Attack vs. Average Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
+```
+
+
+```{r}
+gen1 %>%
+  filter(Type1 == "Water") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 1") + theme(axis.text.x=element_text(angle=90, hjust=1))
+
+gen2 %>%
+  filter(Type1 == "Water") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 2") + theme(axis.text.x=element_text(angle=90, hjust=1))
+
+gen3 %>%
+  filter(Type1 == "Water") %>%
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Water Pokemon in Gen 3") + theme(axis.text.x=element_text(angle=90, hjust=1))
+```
 
 
