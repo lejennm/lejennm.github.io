@@ -6,7 +6,9 @@ library(tidyr)
 library(dplyr)
 ```
 
-### CMSC320 Final Project
+### Pokémon Statistics
+
+##### Jennifer Le
 
 #### Introduction
 
@@ -21,7 +23,7 @@ You will need to download R and the following packages:
 
 R can be downloaded here: https://cran.r-project.org/index.html
 
-#### Gathering and Tidying Data
+#### Getting started
 
 Let's start by loading the data. 
 
