@@ -79,7 +79,7 @@ head(legendary)
 
 ### Exploratory Data Analysis
 
-Now we can analyze our data to see if there are any patterns or trends. Let's create a table with the average statistics for each Pokemon type. We start by grouping together each Pokemon type with the group_by function. This function grabs each Pokemon and places it into a group according to its type. For example, all Pokemon with a Bug type will be placed into a group, all Pokemon with a Dark type will be placed in another group, etc. Then we can use the summarize function to get the averages of each statistic for each type based on the grouping we previously did. The resulting table will have average HP, attack, defense, special attack, special defense, and speed for every type. 
+Now we can analyze our data to see if there are any patterns or trends. Let's create a table with the average statistics for each Pokemon type. We start by grouping together each Pokemon type with the group_by function. This function grabs each Pokemon and places it into a group according to its type. For example, all Pokemon with a Bug type will be placed into a group, all Pokemon with a Dark type will be placed in another group, etc. Then we can use the summarize function to get the averages of each statistic for each type based on the grouping we just did. The resulting table will have the average HP, attack, defense, special attack, special defense, and speed for every type. 
 
 ```{r}
 avgStats <- pokemon %>%
@@ -89,36 +89,42 @@ avgStats <- pokemon %>%
 head(avgStats)
 ```
 
+Graphs are a great way to visualize patterns and trends in our data. The ggplot function allows us to create plots based on attributes we want to display. For this plot, I want to show the average HP for each Pokemon type, so I put Pokemon type on the x-axis and the average HP on the y-axis. We can also choose the type of graph we want, such as scatter plot, bar graph, etc. I chose to use a bar graph for this plot because it allows you to compare the average HP for all the types by looking at the height of each bar. I added different colors for each bar not only to make the graph look nicer, but to help differentiate each bar from each other. Lastly, since there are a lot of bars in the graph, I used the theme function to change the orientation of the Pokemon types on the x-axis to vertical so that the words do not overlap with each other. 
 
 ```{r}
 avgStats %>%
-  ggplot(mapping=aes(x=Type1, y=avgHP)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average HP", title="Average HP of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
+  ggplot(mapping=aes(x=Type1, y=avgHP)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Pokemon Type", y="Average HP", title="Average HP of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
+This plot is similar to the one above but instead displays the average attack for each Pokemon type. 
 
 ```{r}
 avgStats %>%
   ggplot(mapping=aes(x=Type1, y=avgAttack)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Attack", title="Average Attack of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
+This plot is similar to the one above but instead displays the average defense for each Pokemon type. 
 
 ```{r}
 avgStats %>%
   ggplot(mapping=aes(x=Type1, y=avgDefense)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Defense", title="Average Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
+This plot is similar to the one above but instead displays the average special attack for each Pokemon type. 
 
 ```{r}
 avgStats %>%
   ggplot(mapping=aes(x=Type1, y=avgSpAttack)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Special Attack", title="Average Special Attack of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
+This plot is similar to the one above but instead displays the average special defense for each Pokemon type. 
 
 ```{r}
 avgStats %>%
   ggplot(mapping=aes(x=Type1, y=avgSpDefense)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Special Defense", title="Average Special Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
+This plot is similar to the one above but instead displays the average speed for each Pokemon type. 
 
 ```{r}
 avgStats %>%
