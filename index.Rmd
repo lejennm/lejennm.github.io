@@ -131,17 +131,21 @@ avgStats %>%
   ggplot(mapping=aes(x=Type1, y=avgSpeed)) + geom_bar(aes(fill=Type1), position="dodge", stat="identity") +  labs(x="Type", y="Average Speed", title="Average Speed of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
-
+Now that we've seen several bar graphs, let's take a look at scatter plots. Scatter plots are useful in seeing the relationship between two variables. Let's see if there's a relationship between average attack and average defense for each Pokemon type. Here we have a scatter plot with average attack on the x-axis and average defense on the y-axis. We can see that most types have about the same level for attack as they do for defense. Scatterplots also allow us to see if there are any outliers. From the plot, we can see that the steel and dragon types are far away from the main cluster. The steel type has a much better defense than the other types while the dragon type has a much better attack. 
 
 ```{r}
 avgStats %>%
   ggplot(mapping=aes(x=avgAttack, y=avgDefense)) + geom_point(aes(color=Type1)) + geom_text(aes(label=Type1)) + labs(x="Average Attack", y="Average Defense", title="Average Attack vs. Average Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
 
+Now let's make a similar scatter plot but with average special attack and average special defense. The two outliers in this plot are the dragon and psychic types, with a higher special attack and special defense than the other types. 
+
 ```{r}
 avgStats %>%
   ggplot(mapping=aes(x=avgSpAttack, y=avgSpDefense)) + geom_point(aes(color=Type1)) + geom_text(aes(label=Type1)) + labs(x="Average Special Attack", y="Average Special Defense", title="Average Special Attack vs. Average Special Defense of Each Pokemon Type") + theme(axis.text.x=element_text(angle=90, hjust=1))
 ```
+
+The following three graphs show the average statistics for water Pokemon in each of the three generations. 
 
 ```{r}
 gen1Water <- gen1 %>%
@@ -160,6 +164,8 @@ gen3Water <- gen3 %>%
 gen3Water
 ```
 
+The following three graphs show the average statistics for fire Pokemon in each of the three generations. 
+
 ```{r}
 gen1Fire <- gen1 %>%
   filter(Type1 == "Fire") %>%
@@ -177,7 +183,8 @@ gen3Fire <- gen3 %>%
 gen3Fire
 ```
 
-### MAKE TABLE OF THE HIGHEST OVERALL STATS
+This creates a table that is ordered by the Total attribute in descending order to show the Pokemon with the highest total statistic across all six statistics. We can see that Mewtwo X, Mewtwo Y (Mewtwo has two different forms), and Rayquaza all have the highest total statistic. This means that they are the strongest Pokemon overall across all of the statistics. Kyogre and Groudon come up at a close second, with only 10 points less than Mewtwo X, Mewtwo Y, and Rayquaza. It's also important to note that most of the Pokemon that have the top total statistics are legendary Pokemon. This shows that legendary Pokemon are the strongest and most powerful compared to the other Pokemon. 
+
 ```{r}
 highestOverall <- pokemon %>%
   arrange(desc(Total))
