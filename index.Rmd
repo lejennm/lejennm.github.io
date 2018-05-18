@@ -169,17 +169,23 @@ The following three graphs show the average statistics for fire Pokemon in each 
 ```{r}
 gen1Fire <- gen1 %>%
   filter(Type1 == "Fire") %>%
-  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 1") + theme(axis.text.x=element_text(angle=90, hjust=1))
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + 
+  labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 1") +
+  theme(axis.text.x=element_text(angle=90, hjust=1))
 gen1Fire
 
 gen2Fire <- gen2 %>%
   filter(Type1 == "Fire") %>%
-  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 2") + theme(axis.text.x=element_text(angle=90, hjust=1))
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + 
+  labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 2") +
+  theme(axis.text.x=element_text(angle=90, hjust=1))
 gen2Fire
 
 gen3Fire <- gen3 %>%
   filter(Type1 == "Fire") %>%
-  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 3") + theme(axis.text.x=element_text(angle=90, hjust=1))
+  ggplot(mapping=aes(x=Name, y=AverageStats)) + geom_bar(position="dodge", stat="identity") + 
+  labs(x="Pokemon Name", y="Average Stats", title="Average Stats of Each Fire Pokemon in Gen 3") +
+  theme(axis.text.x=element_text(angle=90, hjust=1))
 gen3Fire
 ```
 
@@ -192,63 +198,60 @@ highestOverall <- pokemon %>%
 head(highestOverall)
 ```
 
+This creates a table that displays the maximum total statistic value for each Pokemon type. We can see that the dragon and psychic types have the highest total statistic values, while the fairy type has the lowest. This means that the dragon and psychic types have the strongest Pokemon and the fairy type has the weakest. 
 
-### MAKE TABLE OF THE HIGHEST OVERALL STATS FOR EACH TYPE
 ```{r}
 overallByType <- pokemon %>%
   group_by(Type1) %>%
-  summarize(Top = max(Total))
+  summarize(Top = max(Total)) %>%
+  arrange(desc(Top))
 
 overallByType
 ```
 
-### COMPARE THE NUMBER OF SINGLE TYPE VS DOUBLE TYPE POKEMON FROM GEN1
+This creates three tables that get the number of Pokemon with a single type and a double type from the first three generations. Before making these tables, I expected the number of Pokemon with only one type to be more than the amount of those with two types, but I was wrong. The amount of single type and double type is actually pretty close.  
+
 ```{r}
 typeGen1 <- gen1 %>%
   group_by(DoubleType) %>%
   summarize(Number = n()) %>%
   mutate(Generation = "Gen1")
-
 typeGen1
-```
 
-
-### COMPARE THE NUMBER OF SINGLE TYPE VS DOUBLE TYPE POKEMON FROM GEN2
-```{r}
 typeGen2 <- gen2 %>%
   group_by(DoubleType) %>%
   summarize(Number = n()) %>%
   mutate(Generation = "Gen2")
-
 typeGen2
-```
 
-
-### COMPARE THE NUMBER OF SINGLE TYPE VS DOUBLE TYPE POKEMON FROM GEN3
-```{r}
 typeGen3 <- gen3 %>%
   group_by(DoubleType) %>%
   summarize(Number = n()) %>%
   mutate(Generation = "Gen3")
-
 typeGen3
 ```
 
-### COMBINE THE DOUBLETYPE TABLES INTO ONE TABLE
+We can combine together the three tables we just created into one so that our data is more concise. 
+
 ```{r}
 types <- rbind(typeGen1, typeGen2, typeGen3)
 types
 ```
 
+This creates a scatter plot that displays the attack versus special attack for all of the legendary Pokemon in the first three generations. There is correlation between the two variables. The Pokemon with low attack values also tend to have low special attack values and Pokemon with high attack values tend to have high special attack values. 
 
-### GET ALL LEGENDARY POKEMON AND PLOT THEIR ATTACK VS SPECIAL ATTACK
 ```{r}
-legendary
+legendary %>%
+  ggplot(mapping=aes(x=Attack, y=SpecialAttack)) + geom_point(aes(color=Name)) + 
+  labs(x="Attack", y="Special Attack", title="Attack vs. Special Attack for Legendary Pokemon")
 ```
 
+Let's see if the same correlation exists for defense versus special defense in legendary Pokemon. The correlation is about the same with the exception of two outliers. Regirock has a high 200 level defense but has half as much for its special defense. Regice, on the other hand, has a low 100 level defense but has twice as much for its special defense. 
 
-### GET ALL LEGENDARY POKEMON AND PLOT THEIR DEFENSE VS SPECIAL DEFENSE
 ```{r}
+legendary %>%
+  ggplot(mapping=aes(x=Defense, y=SpecialDefense)) + geom_point(aes(color=Name)) + 
+  labs(x="Defense", y="Special Defense", title="Defense vs. Special Defense for Legendary Pokemon")
 legendary
 ```
 
