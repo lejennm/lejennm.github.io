@@ -340,7 +340,6 @@ Let's see if the same correlation exists for defense versus special defense in l
 legendary %>%
   ggplot(mapping=aes(x=Defense, y=SpecialDefense)) + geom_point(aes(color=Name)) + 
   labs(x="Defense", y="Special Defense", title="Defense vs. Special Defense for Legendary Pokemon")
-legendary
 ```
 
 
